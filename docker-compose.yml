@@ -1,0 +1,39 @@
+services:
+  server:
+    image: oxibooru/server:0.7
+    depends_on:
+      - sql
+    environment:
+      POSTGRES_HOST: sql
+      POSTGRES_USER: oxi
+      POSTGRES_PASSWORD: [REDACTED]
+      POSTGRES_DB: oxi
+      POSTGRES_PORT: "5432"
+    volumes:
+      - oxi_data:/data
+      - ./server/config.toml:/opt/app/config.toml:ro
+    stop_signal: SIGINT
+
+  client:
+    image: oxibooru/client:0.7
+    depends_on:
+      - server
+    environment:
+      BACKEND_HOST: server
+      BASE_URL: /
+    volumes:
+      - oxi_data:/data:ro
+
+  sql:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: oxi
+      POSTGRES_PASSWORD: [REDACTED]
+      POSTGRES_DB: oxi
+    volumes:
+      - oxi_sql:/var/lib/postgresql/data
+
+volumes:
+  oxi_data:
+  oxi_sql:
