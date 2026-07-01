@@ -9,7 +9,7 @@ services:
         content_secret = "[REDACTED]"
 
         [public_info]
-        name = "ヒカマーBooru"
+        name = "hikabooru"
         default_user_rank = "regular"
 
         [public_info.privileges]
