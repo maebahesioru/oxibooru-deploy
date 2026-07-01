@@ -1,8 +1,67 @@
 services:
+  config-init:
+    image: alpine:latest
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        cat > /data/config.toml << 'EOF'
+        password_secret = "[REDACTED]"
+        content_secret = "[REDACTED]"
+
+        [public_info]
+        name = "ヒカマーBooru"
+        default_user_rank = "regular"
+
+        [public_info.privileges]
+        user_create_self = "anonymous"
+        user_list = "anonymous"
+        user_view = "anonymous"
+        post_create_anonymous = "anonymous"
+        post_create_identified = "anonymous"
+        post_list = "anonymous"
+        post_view = "anonymous"
+        post_view_featured = "anonymous"
+        post_edit_tag = "anonymous"
+        post_edit_source = "anonymous"
+        post_edit_relation = "anonymous"
+        post_edit_note = "anonymous"
+        post_edit_flag = "anonymous"
+        post_score = "anonymous"
+        post_favorite = "anonymous"
+        post_delete = "regular"
+        comment_create = "anonymous"
+        comment_list = "anonymous"
+        comment_view = "anonymous"
+        comment_score = "anonymous"
+        comment_edit_own = "anonymous"
+        comment_delete_own = "anonymous"
+        tag_create = "anonymous"
+        tag_list = "anonymous"
+        tag_view = "anonymous"
+        tag_edit_name = "anonymous"
+        tag_edit_description = "anonymous"
+        tag_delete = "regular"
+        pool_create = "anonymous"
+        pool_list = "anonymous"
+        pool_view = "anonymous"
+        pool_edit_post = "anonymous"
+        pool_delete = "regular"
+        upload_create = "anonymous"
+        EOF
+        chown 1000:1000 /data/config.toml
+        echo "Config written"
+    volumes:
+      - oxi_data:/data
+    restart: "no"
+
   server:
     image: oxibooru/server:0.7
     depends_on:
-      - sql
+      sql:
+        condition: service_started
+      config-init:
+        condition: service_completed_successfully
+    command: ["--config-path=/data/config.toml"]
     environment:
       POSTGRES_HOST: sql
       POSTGRES_USER: oxi
@@ -11,7 +70,6 @@ services:
       POSTGRES_PORT: "5432"
     volumes:
       - oxi_data:/data
-      - ./server/config.toml:/opt/app/config.toml:ro
     stop_signal: SIGINT
 
   client:
