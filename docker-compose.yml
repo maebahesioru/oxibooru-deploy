@@ -64,10 +64,10 @@ services:
     command: ["--config-path=/data/config.toml"]
     environment:
       POSTGRES_HOST: sql
-      POSTGRES_USER: oxi
-      POSTGRES_PASSWORD: [REDACTED]
-      POSTGRES_DB: oxi
-      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: "${POSTGRES_PORT}"
     volumes:
       - oxi_data:/data
     stop_signal: SIGINT
@@ -86,9 +86,9 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: oxi
-      POSTGRES_PASSWORD: [REDACTED]
-      POSTGRES_DB: oxi
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - oxi_sql:/var/lib/postgresql/data
 
