@@ -10,7 +10,7 @@ services:
 
         [public_info]
         name = "hikabooru"
-        default_user_rank = "restricted"
+        default_user_rank = "regular"
 
         [public_info.privileges]
         # --- users ---
