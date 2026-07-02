@@ -1,5 +1,0 @@
-password_secret = "fc8ef28ff330c317aa9c27783ccd80b6bfa2e25bd8ba6bea605ebc947e263e08"
-content_secret = "a008435b503ce3bd1f30d4a529cfbfbbcc0ea35e2436ba29e42ac764f6b16b2f"
-
-[public_info]
-name = "hikabooru"
