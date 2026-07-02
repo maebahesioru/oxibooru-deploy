@@ -10,7 +10,7 @@ services:
 
         [public_info]
         name = "hikabooru"
-        default_user_rank = "regular"
+        default_user_rank = "restricted"
 
         [public_info.privileges]
         user_create_self = "anonymous"
@@ -28,7 +28,7 @@ services:
         post_edit_flag = "anonymous"
         post_score = "anonymous"
         post_favorite = "anonymous"
-        post_delete = "regular"
+        post_delete = "power"
         comment_create = "anonymous"
         comment_list = "anonymous"
         comment_view = "anonymous"
